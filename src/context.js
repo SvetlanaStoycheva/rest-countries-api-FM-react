@@ -10,7 +10,10 @@ const getStorageTheme = () => {
   }
 };
 
-const initialState = {};
+const initialState = {
+  all_countries: [],
+  all_regions: [],
+};
 
 const AppContext = React.createContext();
 
@@ -18,6 +21,9 @@ const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const [theme, setTheme] = useState(getStorageTheme());
+
+  // Theme toggle
+  const [searchTerm, setSearchTerm] = useState('a');
   const toggleTheme = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light');
   };
@@ -25,8 +31,27 @@ const AppProvider = ({ children }) => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  // Countries fetch
+  const fetchCountries = async () => {
+    try {
+      const response = await fetch('https://restcountries.com/v2/all');
+      const data = await response.json();
+      // console.log(regions);
+      dispatch({ type: 'FETCH_COUNTRIES', payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
+  //
+
   return (
-    <AppContext.Provider value={{ ...state, theme, toggleTheme }}>
+    <AppContext.Provider
+      value={{ ...state, theme, toggleTheme, setSearchTerm }}
+    >
       {children}
     </AppContext.Provider>
   );

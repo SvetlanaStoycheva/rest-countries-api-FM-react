@@ -5,8 +5,10 @@ import { useGlobalContext } from '../context';
 const Header = () => {
   const { theme, toggleTheme } = useGlobalContext();
   return (
-    <section className='header'>
-      <h2>Where in the world?</h2>
+    <section
+      className={theme === 'light' ? 'header light-theme' : 'header dark-theme'}
+    >
+      <h3>Where in the world?</h3>
       <div className='toggle-btn' onClick={toggleTheme}>
         <span>{theme === 'light' ? <BsMoon /> : <BsSun />}</span>
         <p>{theme === 'light' ? 'Dark mode' : 'Light mode'}</p>
