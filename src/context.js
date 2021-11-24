@@ -13,6 +13,7 @@ const getStorageTheme = () => {
 const initialState = {
   all_countries: [],
   all_regions: [],
+  initial_countries: [],
 };
 
 const AppContext = React.createContext();
@@ -31,6 +32,51 @@ const AppProvider = ({ children }) => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  // Fetch User location to load their country and random contries from the region
+  const fetchUserLocation = async () => {
+    try {
+      // fetch user country
+      const response = await fetch('https://geolocation-db.com/json/');
+      const data = await response.json();
+      const userCountry = data.country_name;
+
+      // fetch region of userCountry
+      const responseRegion = await fetch(
+        `https://restcountries.com/v2/name/${userCountry}`
+      );
+      let dataUserCountry = await responseRegion.json();
+      dataUserCountry = dataUserCountry[0];
+      const dataRegion = dataUserCountry.region;
+
+      // fetch all countries in this region
+      const responsAllCountriesInTheRegion = await fetch(
+        `https://restcountries.com/v3.1/region/${dataRegion}`
+      );
+      const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
+      // console.log(dataAllCountriesInTheRegion);
+
+      // find the user Country in the region in order to display it first on the page
+      const currentUserCountry = dataAllCountriesInTheRegion.find((item) => {
+        const { common } = item.name;
+        return common === dataUserCountry.name && item;
+      });
+      // console.log(currentUserCountry);
+
+      // 7 random countries from the user Country region
+      let shuffledCountries = dataAllCountriesInTheRegion.sort(
+        (a, b) => 0.5 - Math.random()
+      );
+      shuffledCountries = [
+        currentUserCountry,
+        ...shuffledCountries.slice(0, 7),
+      ];
+      console.log(shuffledCountries);
+      dispatch({ type: 'INITIAL_COUNTRIES_LOAD', payload: shuffledCountries });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Countries fetch
   const fetchCountries = async () => {
     try {
@@ -44,6 +90,7 @@ const AppProvider = ({ children }) => {
   };
   useEffect(() => {
     fetchCountries();
+    fetchUserLocation();
   }, []);
 
   //
