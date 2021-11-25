@@ -13,7 +13,7 @@ const getStorageTheme = () => {
 const initialState = {
   all_countries: [],
   all_regions: [],
-  initial_countries: [],
+  loaded_countries: [],
 };
 
 const AppContext = React.createContext();
@@ -53,14 +53,12 @@ const AppProvider = ({ children }) => {
         `https://restcountries.com/v3.1/region/${dataRegion}`
       );
       const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
-      // console.log(dataAllCountriesInTheRegion);
 
       // find the user Country in the region in order to display it first on the page
       const currentUserCountry = dataAllCountriesInTheRegion.find((item) => {
         const { common } = item.name;
         return common === dataUserCountry.name && item;
       });
-      // console.log(currentUserCountry);
 
       // 7 random countries from the user Country region
       let shuffledCountries = dataAllCountriesInTheRegion.sort(

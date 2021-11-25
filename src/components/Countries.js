@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 
 const formatInteger = (number) => {
@@ -6,38 +7,57 @@ const formatInteger = (number) => {
 };
 
 const Countries = () => {
-  const { theme, initial_countries } = useGlobalContext();
+  const { theme, loaded_countries } = useGlobalContext();
 
   return (
-    <section className='countries-container'>
-      {initial_countries.map((item, index) => {
+    <section
+      className={
+        theme === 'light'
+          ? 'countries-container light-theme'
+          : 'countries-container dark-theme'
+      }
+    >
+      {loaded_countries.map((item, index) => {
         let {
           flags: { svg: flagImage },
-          name: { common: countryName },
+          name: { official: countryName, common: commonCountryName },
           capital,
           population,
           region,
         } = item;
-        population = formatInteger(population);
+        const populationFormated = formatInteger(population);
         // single country
         return (
-          <article className='single-country' key={index}>
-            <img src={flagImage} alt='flag' />
-            <div className='single-country-info'>
-              <h3>{countryName}</h3>
-              <div>
-                <h4>
-                  Population: <span>{population}</span>
-                </h4>
-                <h4>
-                  Region: <span>{region}</span>
-                </h4>
-                <h4>
-                  Capital: <span>{capital}</span>
-                </h4>
+          <Link
+            to={`/contries/${population}`}
+            key={index}
+            id={commonCountryName}
+          >
+            <article
+              className={
+                theme === 'light'
+                  ? 'single-country light-theme'
+                  : 'single-country  dark-theme'
+              }
+              key={index}
+            >
+              <img src={flagImage} className='flag-img' alt='flag' />
+              <div className='single-country-info'>
+                <h3>{countryName}</h3>
+                <div>
+                  <h4>
+                    Population: <span>{populationFormated}</span>
+                  </h4>
+                  <h4>
+                    Region: <span>{region}</span>
+                  </h4>
+                  <h4>
+                    Capital: <span>{capital}</span>
+                  </h4>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
+          </Link>
         );
       })}
     </section>

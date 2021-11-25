@@ -8,7 +8,7 @@ const reducer = (state, action) => {
     return { ...state, all_regions: regions, all_countries: action.payload };
   }
   if (action.type === 'INITIAL_COUNTRIES_LOAD') {
-    return { ...state, initial_countries: action.payload };
+    return { ...state, loaded_countries: action.payload };
   }
   throw new Error(`no matching "${action.type}" action type`);
 };
