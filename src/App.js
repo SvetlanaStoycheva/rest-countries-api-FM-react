@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/HomePage';
-import SingleCountry from './pages/SingleCountryPage';
 import SingleCountryPage from './pages/SingleCountryPage';
 
 function App() {

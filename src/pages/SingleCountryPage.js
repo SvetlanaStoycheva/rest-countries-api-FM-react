@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
@@ -10,14 +10,18 @@ const formatInteger = (number) => {
 };
 
 const SingleCountryPage = () => {
+  const [borderCountries, setBorderCountries] = useState([]);
+  // const [activeCountry, setActiveCountry] = useState(null);
+
   const { theme, loaded_countries } = useGlobalContext();
+
   let { id } = useParams();
   id = Number(id);
 
   const currentCountry = loaded_countries.find(
     (item) => item.population === id
   );
-  console.log(currentCountry);
+
   const {
     flags: { svg: flagImage },
     name: { official: countryName, nativeName },
@@ -40,10 +44,22 @@ const SingleCountryPage = () => {
   const languagesValues = Object.values(languages);
 
   // find border countries
-  borders.map((item) => {
-    console.log(item);
-  });
+  const fetchBorderCountries = async () => {
+    if (borders) {
+      const bordersList = borders.join(',');
 
+      const response = await fetch(
+        `https://restcountries.com/v3.1/alpha?codes=${bordersList}`
+      );
+      const data = await response.json();
+      setBorderCountries(data);
+    }
+  };
+  useEffect(() => {
+    fetchBorderCountries();
+  }, []);
+
+  //
   const formatedPopulation = formatInteger(population);
 
   return (
@@ -96,9 +112,23 @@ const SingleCountryPage = () => {
               </h4>
             </div>
           </div>
-          <article className='border-countries'>
-            <h4>Border Countries</h4>
-          </article>
+          {borders && (
+            <article className='border-countries'>
+              <h4>Border Countries</h4>
+
+              {borderCountries.map((item, index) => {
+                const {
+                  name: { common },
+                  population,
+                } = item;
+                return (
+                  <Link key={index} to={`/contries/${population}`}>
+                    <button>{common}</button>
+                  </Link>
+                );
+              })}
+            </article>
+          )}
         </div>
       </article>
     </section>

@@ -14,6 +14,7 @@ const initialState = {
   all_countries: [],
   all_regions: [],
   loaded_countries: [],
+  all_countries_in_the_active_country_region: [],
 };
 
 const AppContext = React.createContext();
@@ -80,7 +81,7 @@ const AppProvider = ({ children }) => {
     try {
       const response = await fetch('https://restcountries.com/v2/all');
       const data = await response.json();
-      // console.log(regions);
+
       dispatch({ type: 'FETCH_COUNTRIES', payload: data });
     } catch (error) {
       console.log(error);
@@ -91,11 +92,29 @@ const AppProvider = ({ children }) => {
     fetchUserLocation();
   }, []);
 
-  //
+  // Fetch all countries from the selected Country region
+  const fetchRegionCountries = async (e) => {
+    const region = e.currentTarget.id;
+
+    const responsAllCountriesInTheRegion = await fetch(
+      `https://restcountries.com/v3.1/region/${region}`
+    );
+    const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
+    dispatch({
+      type: 'ALL_COUNTRIES_IN_THE_REGION',
+      payload: dataAllCountriesInTheRegion,
+    });
+  };
 
   return (
     <AppContext.Provider
-      value={{ ...state, theme, toggleTheme, setSearchTerm }}
+      value={{
+        ...state,
+        theme,
+        toggleTheme,
+        setSearchTerm,
+        fetchRegionCountries,
+      }}
     >
       {children}
     </AppContext.Provider>

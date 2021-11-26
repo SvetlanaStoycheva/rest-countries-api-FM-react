@@ -10,6 +10,12 @@ const reducer = (state, action) => {
   if (action.type === 'INITIAL_COUNTRIES_LOAD') {
     return { ...state, loaded_countries: action.payload };
   }
+  if (action.type === 'ALL_COUNTRIES_IN_THE_REGION') {
+    return {
+      ...state,
+      all_countries_in_the_active_country_region: action.payload,
+    };
+  }
   throw new Error(`no matching "${action.type}" action type`);
 };
 export default reducer;

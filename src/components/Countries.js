@@ -7,7 +7,7 @@ const formatInteger = (number) => {
 };
 
 const Countries = () => {
-  const { theme, loaded_countries } = useGlobalContext();
+  const { theme, loaded_countries, fetchRegionCountries } = useGlobalContext();
 
   return (
     <section
@@ -20,7 +20,7 @@ const Countries = () => {
       {loaded_countries.map((item, index) => {
         let {
           flags: { svg: flagImage },
-          name: { official: countryName, common: commonCountryName },
+          name: { official: countryName },
           capital,
           population,
           region,
@@ -28,11 +28,7 @@ const Countries = () => {
         const populationFormated = formatInteger(population);
         // single country
         return (
-          <Link
-            to={`/contries/${population}`}
-            key={index}
-            id={commonCountryName}
-          >
+          <Link to={`/contries/${population}`} key={index}>
             <article
               className={
                 theme === 'light'
