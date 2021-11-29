@@ -65,15 +65,20 @@ const SingleCountryPage = () => {
       }
     >
       <Header />
-      <Link to='/'>
-        <button>
-          <BsArrowLeft />
-          <p>Back</p>
-        </button>
-      </Link>
+      <div className='single-country-back-btn-container'>
+        <Link to='/'>
+          <button className='single-country-back-btn'>
+            <span>
+              <BsArrowLeft />
+            </span>
+
+            <p>Back</p>
+          </button>
+        </Link>
+      </div>
       {/* country container */}
       <article className='country-container'>
-        <img src={flagImage} alt='flag' />
+        <img className='single-country-flag' src={flagImage} alt='flag' />
         <div className='country-info-container'>
           <h3>{name}</h3>
           <div className='country-detailed-info'>
@@ -107,8 +112,8 @@ const SingleCountryPage = () => {
             </div>
           </div>
           {borders && (
-            <article className='border-countries'>
-              <h4>Border Countries</h4>
+            <article className='border-countries-btns-container'>
+              <h4>Border Countries: </h4>
 
               {borderCountries.map((item, index) => {
                 const {
@@ -122,7 +127,9 @@ const SingleCountryPage = () => {
                     onClick={handleCurrentCountry}
                     id={population}
                   >
-                    <button>{common}</button>
+                    <button className='single-country-border-btn'>
+                      {common}
+                    </button>
                   </Link>
                 );
               })}
