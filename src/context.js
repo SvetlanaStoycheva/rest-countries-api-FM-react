@@ -15,6 +15,7 @@ const initialState = {
   all_regions: [],
   loaded_countries: [],
   all_countries_in_the_active_country_region: [],
+  currentCountry: {},
 };
 
 const AppContext = React.createContext();
@@ -69,7 +70,7 @@ const AppProvider = ({ children }) => {
         currentUserCountry,
         ...shuffledCountries.slice(0, 7),
       ];
-      console.log(shuffledCountries);
+      // console.log(shuffledCountries);
       dispatch({ type: 'INITIAL_COUNTRIES_LOAD', payload: shuffledCountries });
     } catch (error) {
       console.log(error);
@@ -106,6 +107,13 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  // find currentCountry to load it on the single country page
+  const handleCurrentCountry = (e) => {
+    const id = e.currentTarget.id;
+
+    dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -114,6 +122,7 @@ const AppProvider = ({ children }) => {
         toggleTheme,
         setSearchTerm,
         fetchRegionCountries,
+        handleCurrentCountry,
       }}
     >
       {children}

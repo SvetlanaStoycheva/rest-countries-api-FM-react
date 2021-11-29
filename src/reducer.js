@@ -16,6 +16,12 @@ const reducer = (state, action) => {
       all_countries_in_the_active_country_region: action.payload,
     };
   }
+  if (action.type === 'FIND_CURRENT_COUNTRY') {
+    const currentCountry = state.all_countries.find(
+      (item) => Number(item.population) === Number(action.payload)
+    );
+    return { ...state, currentCountry };
+  }
   throw new Error(`no matching "${action.type}" action type`);
 };
 export default reducer;

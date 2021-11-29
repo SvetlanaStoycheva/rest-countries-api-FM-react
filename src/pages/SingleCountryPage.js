@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
-import { useParams } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
 
 const formatInteger = (number) => {
@@ -10,38 +9,33 @@ const formatInteger = (number) => {
 };
 
 const SingleCountryPage = () => {
+  const { theme, currentCountry, handleCurrentCountry } = useGlobalContext();
   const [borderCountries, setBorderCountries] = useState([]);
-  // const [activeCountry, setActiveCountry] = useState(null);
-
-  const { theme, loaded_countries } = useGlobalContext();
-
-  let { id } = useParams();
-  id = Number(id);
-
-  const currentCountry = loaded_countries.find(
-    (item) => item.population === id
-  );
+  // console.log(currentCountry);
 
   const {
     flags: { svg: flagImage },
-    name: { official: countryName, nativeName },
+    name,
+    nativeName,
     population,
     region,
     subregion,
     capital,
-    tld,
+    topLevelDomain,
     currencies,
     languages,
     borders,
   } = currentCountry;
+  const countryLanguages = languages.map((item) => item.name).join(', ');
+  const countryCurrencies = currencies.map((item) => item.code).join(', ');
   // take the value from the nativeName object which have changing key, for Bulgaria is bul.
-  const nativeNameKey = Object.keys(nativeName);
-  const { official: countryNativeName } = nativeName[nativeNameKey];
+  // const nativeNameKey = Object.keys(nativeName);
+  // const { official: countryNativeName } = nativeName[nativeNameKey];
   //take the value from changing key => for currencies
-  const currenciesKey = Object.keys(currencies);
-  const { name: currencyName } = currencies[currenciesKey];
+  // const currenciesKey = Object.keys(currencies);
+  // const { name: currencyName } = currencies[currenciesKey];
   //take the value from changing key => for languages
-  const languagesValues = Object.values(languages);
+  // const languagesValues = Object.values(languages);
 
   // find border countries
   const fetchBorderCountries = async () => {
@@ -81,11 +75,11 @@ const SingleCountryPage = () => {
       <article className='country-container'>
         <img src={flagImage} alt='flag' />
         <div className='country-info-container'>
-          <h3>{countryName}</h3>
+          <h3>{name}</h3>
           <div className='country-detailed-info'>
             <div className='country-detailed-info-left'>
               <h4>
-                Native Name: <span>{countryNativeName}</span>
+                Native Name: <span>{nativeName}</span>
               </h4>
               <h4>
                 Population: <span>{formatedPopulation}</span>
@@ -102,13 +96,13 @@ const SingleCountryPage = () => {
             </div>
             <div className='country-detailed-info-right'>
               <h4>
-                Top Level Domain: <span>{tld}</span>
+                Top Level Domain: <span>{topLevelDomain}</span>
               </h4>
               <h4>
-                Currencies: <span>{currencyName}</span>
+                Currencies: <span>{countryCurrencies}</span>
               </h4>
               <h4>
-                Languages: <span>{languagesValues}</span>
+                Languages: <span>{countryLanguages}</span>
               </h4>
             </div>
           </div>
@@ -122,7 +116,12 @@ const SingleCountryPage = () => {
                   population,
                 } = item;
                 return (
-                  <Link key={index} to={`/contries/${population}`}>
+                  <Link
+                    key={index}
+                    to={`/contries/${population}`}
+                    onClick={handleCurrentCountry}
+                    id={population}
+                  >
                     <button>{common}</button>
                   </Link>
                 );

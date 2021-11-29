@@ -7,7 +7,7 @@ const formatInteger = (number) => {
 };
 
 const Countries = () => {
-  const { theme, loaded_countries, fetchRegionCountries } = useGlobalContext();
+  const { theme, loaded_countries, handleCurrentCountry } = useGlobalContext();
 
   return (
     <section
@@ -28,7 +28,12 @@ const Countries = () => {
         const populationFormated = formatInteger(population);
         // single country
         return (
-          <Link to={`/contries/${population}`} key={index}>
+          <Link
+            to={`/contries/${population}`}
+            key={index}
+            onClick={handleCurrentCountry}
+            id={population}
+          >
             <article
               className={
                 theme === 'light'
