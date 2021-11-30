@@ -16,6 +16,7 @@ const initialState = {
   loaded_countries: [],
   all_countries_in_the_active_country_region: [],
   currentCountry: {},
+  error: false,
 };
 
 const AppContext = React.createContext();
@@ -95,7 +96,8 @@ const AppProvider = ({ children }) => {
 
   // Fetch all countries from the selected Country region
   const fetchRegionCountries = async (e) => {
-    const region = e.currentTarget.id;
+    const region = e.currentTarget.value;
+    console.log(region);
 
     const responsAllCountriesInTheRegion = await fetch(
       `https://restcountries.com/v3.1/region/${region}`
@@ -113,6 +115,24 @@ const AppProvider = ({ children }) => {
 
     dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
   };
+
+  //search form: fetch countries from the search input
+  const fetchInputCountry = async () => {
+    try {
+      const response = await fetch(
+        `https://restcountries.com/v2/name/${searchTerm}`
+      );
+      const data = await response.json();
+
+      dispatch({ type: 'SHOW_INPUT_COUNTRY', payload: data });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: 'SET_ERROR' });
+    }
+  };
+  useEffect(() => {
+    fetchInputCountry();
+  }, [searchTerm]);
 
   return (
     <AppContext.Provider

@@ -6,7 +6,7 @@ const SearchForms = () => {
   const {
     theme,
     setSearchTerm,
-    updateFilter,
+    fetchRegionCountries,
     region,
     all_regions,
   } = useGlobalContext();
@@ -44,8 +44,8 @@ const SearchForms = () => {
         <select
           name='region'
           className='region-selection'
-          // value={region}
-          // onChange={updateFilter}
+          value={region}
+          onChange={fetchRegionCountries}
         >
           {all_regions.map((item, index) => {
             return (
