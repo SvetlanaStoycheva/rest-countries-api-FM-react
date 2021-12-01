@@ -1,6 +1,6 @@
 ## REST Countries API with color theme switcher // Frontend Mentor // React JS
 
-- [see project]()
+- [see project](https://sweta-fm-countries-api.netlify.app)
 - This challenge uses [REST Countries V2 API ](https://restcountries.com/#api-endpoints-v2) to pull country data and display it on the homepage.
   On initial load the user sees their own country and another 7 countries from the same region.
 - The user can:

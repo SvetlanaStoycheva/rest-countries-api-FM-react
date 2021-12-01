@@ -25,9 +25,9 @@ const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const [theme, setTheme] = useState(getStorageTheme());
+  const [searchTerm, setSearchTerm] = useState('australia');
 
   // Theme toggle
-  const [searchTerm, setSearchTerm] = useState('a');
   const toggleTheme = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light');
   };
@@ -119,12 +119,15 @@ const AppProvider = ({ children }) => {
   //search form: fetch countries from the search input
   const fetchInputCountry = async () => {
     try {
-      const response = await fetch(
-        `https://restcountries.com/v2/name/${searchTerm}`
-      );
-      const data = await response.json();
-
-      dispatch({ type: 'SHOW_INPUT_COUNTRY', payload: data });
+      if (searchTerm) {
+        const response = await fetch(
+          `https://restcountries.com/v2/name/${searchTerm}`
+        );
+        const data = await response.json();
+        if (data.length > 0) {
+          dispatch({ type: 'SHOW_INPUT_COUNTRY', payload: data });
+        }
+      }
     } catch (error) {
       console.log(error);
       dispatch({ type: 'SET_ERROR' });

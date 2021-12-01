@@ -51,7 +51,7 @@ const SingleCountryPage = () => {
   };
   useEffect(() => {
     fetchBorderCountries();
-  }, []);
+  }, [currentCountry]);
 
   //
   const formatedPopulation = formatInteger(population);
