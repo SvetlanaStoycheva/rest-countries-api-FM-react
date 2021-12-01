@@ -11,13 +11,29 @@ const Countries = () => {
     theme,
     loaded_countries,
     handleCurrentCountry,
+    loading,
     error,
   } = useGlobalContext();
-  console.log(loaded_countries);
+  // console.log(loaded_countries);
 
-  if (loaded_countries.lenght <= 0) {
-    return <h2>error</h2>;
+  // if (loaded_countries.lenght <= 0) {
+  //   return <h2>error</h2>;
+  // }
+
+  if (loading) {
+    return (
+      <section
+        className={
+          theme === 'light'
+            ? 'countries-container light-theme'
+            : 'countries-container dark-theme'
+        }
+      >
+        <h1>Loading...</h1>
+      </section>
+    );
   }
+
   return (
     <section
       className={

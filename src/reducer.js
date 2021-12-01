@@ -16,8 +16,16 @@ const reducer = (state, action) => {
       error: false,
     };
   }
+  if (action.type === 'SET_LOADING') {
+    return { ...state, loading: true };
+  }
   if (action.type === 'INITIAL_COUNTRIES_LOAD') {
-    return { ...state, loaded_countries: action.payload, error: false };
+    return {
+      ...state,
+      loaded_countries: action.payload,
+      error: false,
+      loading: false,
+    };
   }
   if (action.type === 'ALL_COUNTRIES_IN_THE_REGION') {
     return {

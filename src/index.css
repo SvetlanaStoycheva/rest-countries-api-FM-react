@@ -291,6 +291,10 @@ Home Page
 .single-country-info h4 span {
   font-weight: 200;
 }
+/* loaging */
+.countries-container h1 {
+  color: var(--text);
+}
 @media screen and (min-width: 1000px) {
   .countries-container {
     display: grid;

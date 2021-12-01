@@ -17,6 +17,7 @@ const initialState = {
   all_countries_in_the_active_country_region: [],
   currentCountry: {},
   error: false,
+  loading: false,
 };
 
 const AppContext = React.createContext();
@@ -37,6 +38,7 @@ const AppProvider = ({ children }) => {
 
   // Fetch User location to load their country and random contries from the region
   const fetchUserLocation = async () => {
+    dispatch({ type: 'SET_LOADING' });
     try {
       // fetch user country
       const response = await fetch('https://geolocation-db.com/json/');
@@ -118,8 +120,8 @@ const AppProvider = ({ children }) => {
 
   //search form: fetch countries from the search input
   const fetchInputCountry = async () => {
-    try {
-      if (searchTerm) {
+    if (searchTerm) {
+      try {
         const response = await fetch(
           `https://restcountries.com/v2/name/${searchTerm}`
         );
@@ -127,10 +129,13 @@ const AppProvider = ({ children }) => {
         if (data.length > 0) {
           dispatch({ type: 'SHOW_INPUT_COUNTRY', payload: data });
         }
+      } catch (error) {
+        fetchUserLocation();
+        console.log(error);
+        dispatch({ type: 'SET_ERROR' });
       }
-    } catch (error) {
-      console.log(error);
-      dispatch({ type: 'SET_ERROR' });
+    } else {
+      fetchUserLocation();
     }
   };
   useEffect(() => {
