@@ -99,7 +99,7 @@ const AppProvider = ({ children }) => {
   // Fetch all countries from the selected Country region
   const fetchRegionCountries = async (e) => {
     const region = e.currentTarget.value;
-    console.log(region);
+    // console.log(region);
 
     const responsAllCountriesInTheRegion = await fetch(
       `https://restcountries.com/v3.1/region/${region}`
@@ -140,6 +140,7 @@ const AppProvider = ({ children }) => {
   };
   useEffect(() => {
     fetchInputCountry();
+    // eslint-disable-next-line
   }, [searchTerm]);
 
   return (

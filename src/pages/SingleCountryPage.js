@@ -11,8 +11,11 @@ const formatInteger = (number) => {
 const SingleCountryPage = () => {
   const { theme, currentCountry, handleCurrentCountry } = useGlobalContext();
   const [borderCountries, setBorderCountries] = useState([]);
-  // console.log(currentCountry);
 
+  useEffect(() => {}, []);
+  console.log(currentCountry);
+
+  //
   const {
     flags: { svg: flagImage },
     name,
@@ -51,6 +54,7 @@ const SingleCountryPage = () => {
   };
   useEffect(() => {
     fetchBorderCountries();
+    // eslint-disable-next-line
   }, [currentCountry]);
 
   //
