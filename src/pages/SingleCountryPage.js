@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
@@ -12,8 +13,11 @@ const SingleCountryPage = () => {
   const { theme, currentCountry, handleCurrentCountry } = useGlobalContext();
   const [borderCountries, setBorderCountries] = useState([]);
 
-  useEffect(() => {}, []);
-  console.log(currentCountry);
+  // const { id } = useParams();
+  // useEffect(() => {
+  //   handleCurrentCountryOnLoad(id);
+  // }, []);
+  // console.log(currentCountry);
 
   //
   const {

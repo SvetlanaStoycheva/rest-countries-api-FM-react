@@ -117,6 +117,10 @@ const AppProvider = ({ children }) => {
 
     dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
   };
+  //
+  // const handleCurrentCountryOnLoad = (id) => {
+  //   dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
+  // };
 
   //search form: fetch countries from the search input
   const fetchInputCountry = async () => {

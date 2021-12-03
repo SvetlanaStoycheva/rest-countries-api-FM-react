@@ -12,13 +12,8 @@ const Countries = () => {
     loaded_countries,
     handleCurrentCountry,
     loading,
-    error,
   } = useGlobalContext();
   // console.log(loaded_countries);
-
-  // if (loaded_countries.lenght <= 0) {
-  //   return <h2>error</h2>;
-  // }
 
   if (loading) {
     return (
