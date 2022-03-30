@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 
+//format the population number 6927288 =>6,927,288
 const formatInteger = (number) => {
   return new Intl.NumberFormat().format(number);
 };

@@ -8,10 +8,10 @@ const HomePage = () => {
   const { theme } = useGlobalContext();
   return (
     <>
-      <Header />
       <section
         className={theme === 'light' ? 'home light-theme' : 'home dark-theme'}
       >
+        <Header />
         <SearchForms />
         <Countries />
       </section>

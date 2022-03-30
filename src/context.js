@@ -58,11 +58,13 @@ const AppProvider = ({ children }) => {
         `https://restcountries.com/v3.1/region/${dataRegion}`
       );
       const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
+      console.log(dataAllCountriesInTheRegion);
 
       // find the user Country in the region in order to display it first on the page
       const currentUserCountry = dataAllCountriesInTheRegion.find((item) => {
         const { common } = item.name;
-        return common === dataUserCountry.name && item;
+        return common === dataUserCountry.name;
+        // return common === dataUserCountry.name && item;
       });
 
       // 7 random countries from the user Country region
@@ -73,14 +75,14 @@ const AppProvider = ({ children }) => {
         currentUserCountry,
         ...shuffledCountries.slice(0, 7),
       ];
-      // console.log(shuffledCountries);
+
       dispatch({ type: 'INITIAL_COUNTRIES_LOAD', payload: shuffledCountries });
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Countries fetch
+  // fetch all countries
   const fetchCountries = async () => {
     try {
       const response = await fetch('https://restcountries.com/v2/all');
@@ -117,10 +119,6 @@ const AppProvider = ({ children }) => {
 
     dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
   };
-  //
-  // const handleCurrentCountryOnLoad = (id) => {
-  //   dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
-  // };
 
   //search form: fetch countries from the search input
   const fetchInputCountry = async () => {

@@ -164,6 +164,7 @@ Header
   padding: 2rem;
   background: var(--elements);
   box-shadow: var(--light-shadow);
+  margin-bottom: 1rem;
 }
 .header h3 {
   margin-bottom: 0;
@@ -190,7 +191,6 @@ Home Page
   width: 100vw;
   height: 95vh;
   background: var(--theme-bg);
-  padding-top: 2rem;
 }
 
 /* Search Forms */
@@ -306,6 +306,9 @@ Home Page
   .single-country {
     width: 22vw;
   }
+  .single-country-info {
+    height: 15rem;
+  }
   .flag-img {
     height: 8rem;
   }
@@ -316,6 +319,9 @@ Home Page
   }
   .flag-img {
     height: 10rem;
+  }
+  .single-country-info {
+    height: 13rem;
   }
 }
 /*
