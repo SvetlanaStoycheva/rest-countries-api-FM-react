@@ -12,9 +12,6 @@ const SearchForms = () => {
   } = useGlobalContext();
   const searchValue = React.useRef();
 
-  const searchCountry = () => {
-    setSearchTerm(searchValue.current.value);
-  };
   return (
     <section
       className={
@@ -35,7 +32,7 @@ const SearchForms = () => {
             className='input-value'
             placeholder='Search for a country...'
             ref={searchValue}
-            onChange={searchCountry}
+            onChange={() => setSearchTerm(searchValue.current.value)}
           />
         </div>
       </form>

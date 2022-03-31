@@ -36,7 +36,7 @@ const AppProvider = ({ children }) => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Fetch User location to load their country and random contries from the region
+  // On initial load => fetch User location (userCountry), fetch its region, fetch all countries in this region, take the userCountry object from the big array in order to display it first, shuffle the big array, display the userCountry and first 7 countries from the shuffled array.
   const fetchUserLocation = async () => {
     dispatch({ type: 'SET_LOADING' });
     try {
@@ -53,12 +53,11 @@ const AppProvider = ({ children }) => {
       dataUserCountry = dataUserCountry[0];
       const dataRegion = dataUserCountry.region;
 
-      // fetch all countries in this region
+      //fetch all countries in this region
       const responsAllCountriesInTheRegion = await fetch(
         `https://restcountries.com/v3.1/region/${dataRegion}`
       );
       const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
-      console.log(dataAllCountriesInTheRegion);
 
       // find the user Country in the region in order to display it first on the page
       const currentUserCountry = dataAllCountriesInTheRegion.find((item) => {
@@ -82,7 +81,7 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  // fetch all countries
+  // On initial load => fetch all countries, filter out all possible regions from them
   const fetchCountries = async () => {
     try {
       const response = await fetch('https://restcountries.com/v2/all');
@@ -98,10 +97,9 @@ const AppProvider = ({ children }) => {
     fetchUserLocation();
   }, []);
 
-  // Fetch all countries from the selected Country region
+  // from Select form => fetch all countries from the selected region and display them
   const fetchRegionCountries = async (e) => {
     const region = e.currentTarget.value;
-    // console.log(region);
 
     const responsAllCountriesInTheRegion = await fetch(
       `https://restcountries.com/v3.1/region/${region}`
@@ -113,14 +111,14 @@ const AppProvider = ({ children }) => {
     });
   };
 
-  // find currentCountry to load it on the single country page
+  // from HomePage or from Borders countries in the SingleCountryPage => onClick on single country => find currentCountry to load it on the single country page
   const handleCurrentCountry = (e) => {
     const id = e.currentTarget.id;
 
     dispatch({ type: 'FIND_CURRENT_COUNTRY', payload: id });
   };
 
-  //search form: fetch countries from the search input
+  //from SearchForm => on every change in the searchForm => fetch countries which names contain the searchTerm and display them
   const fetchInputCountry = async () => {
     if (searchTerm) {
       try {

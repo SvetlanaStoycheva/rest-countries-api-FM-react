@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
+import noImageAvailable from '../no-image-available.png';
 
 //format the population number 6927288 =>6,927,288
 const formatInteger = (number) => {
@@ -14,7 +15,6 @@ const Countries = () => {
     handleCurrentCountry,
     loading,
   } = useGlobalContext();
-  // console.log(loaded_countries);
 
   if (loading) {
     return (
@@ -64,7 +64,11 @@ const Countries = () => {
               }
               key={index}
             >
-              <img src={flagImage} className='flag-img' alt='flag' />
+              <img
+                src={flagImage ? flagImage : noImageAvailable}
+                className='flag-img'
+                alt='flag'
+              />
               <div className='single-country-info'>
                 <h3>{countryName ? countryName : name}</h3>
                 <div>

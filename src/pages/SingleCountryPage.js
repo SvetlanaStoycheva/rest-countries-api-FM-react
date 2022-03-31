@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 import { BsArrowLeft } from 'react-icons/bs';
+import noImageAvailable from '../no-image-available.png';
 
+//format the population number 6927288 =>6,927,288
 const formatInteger = (number) => {
   return new Intl.NumberFormat().format(number);
 };
@@ -13,15 +14,8 @@ const SingleCountryPage = () => {
   const { theme, currentCountry, handleCurrentCountry } = useGlobalContext();
   const [borderCountries, setBorderCountries] = useState([]);
 
-  // const { id } = useParams();
-  // useEffect(() => {
-  //   handleCurrentCountryOnLoad(id);
-  // }, []);
-  // console.log(currentCountry);
-
-  //
   const {
-    flags: { svg: flagImage },
+    // flags: { svg: flagImage },
     name,
     nativeName,
     population,
@@ -33,18 +27,18 @@ const SingleCountryPage = () => {
     languages,
     borders,
   } = currentCountry;
+  //some countries do not have flags
+  let flagImage = noImageAvailable;
+  if (currentCountry.flags) {
+    const { svg } = currentCountry.flags;
+    flagImage = svg;
+  }
+
   const countryLanguages = languages.map((item) => item.name).join(', ');
   const countryCurrencies = currencies.map((item) => item.code).join(', ');
-  // take the value from the nativeName object which have changing key, for Bulgaria is bul.
-  // const nativeNameKey = Object.keys(nativeName);
-  // const { official: countryNativeName } = nativeName[nativeNameKey];
-  //take the value from changing key => for currencies
-  // const currenciesKey = Object.keys(currencies);
-  // const { name: currencyName } = currencies[currenciesKey];
-  //take the value from changing key => for languages
-  // const languagesValues = Object.values(languages);
+  const formatedPopulation = formatInteger(population);
 
-  // find border countries
+  // if currentCountry has border countries => fetch for data for them
   const fetchBorderCountries = async () => {
     if (borders) {
       const bordersList = borders.join(',');
@@ -60,9 +54,6 @@ const SingleCountryPage = () => {
     fetchBorderCountries();
     // eslint-disable-next-line
   }, [currentCountry]);
-
-  //
-  const formatedPopulation = formatInteger(population);
 
   return (
     <section

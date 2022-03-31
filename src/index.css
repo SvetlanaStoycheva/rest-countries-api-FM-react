@@ -189,6 +189,7 @@ Home Page
 */
 .home {
   width: 100vw;
+  max-width: var(--max-width);
   height: 95vh;
   background: var(--theme-bg);
 }
@@ -269,6 +270,11 @@ Home Page
   margin: 4rem auto;
   border-radius: 6px;
   cursor: pointer;
+  box-shadow: var(--light-shadow);
+  transition: var(--transition);
+}
+.single-country:hover {
+  transform: scale(1.015);
 }
 .flag-img {
   width: 100%;
