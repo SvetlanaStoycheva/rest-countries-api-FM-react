@@ -170,6 +170,7 @@ Header
   margin-bottom: 0;
   color: var(--text);
   font-size: 1.2rem;
+  cursor: pointer;
 }
 @media screen and (min-width: 900px) {
   .header {
@@ -461,4 +462,30 @@ Single Country Page
   .country-detailed-info-right {
     margin-bottom: 2rem;
   }
+}
+
+/*
+=============== 
+Error Page
+===============
+*/
+.error-container {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  margin-top: 2rem;
+}
+.back-home-btn {
+  box-shadow: var(--light-shadow);
+  width: 12rem;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--elements);
+  transition: var(--transition);
+}
+.back-home-btn:hover {
+  transform: scale(1.015);
 }

@@ -14,7 +14,6 @@ const initialState = {
   all_countries: [],
   all_regions: [],
   loaded_countries: [],
-  all_countries_in_the_active_country_region: [],
   currentCountry: {},
   error: false,
   loading: false,
@@ -100,15 +99,21 @@ const AppProvider = ({ children }) => {
   // from Select form => fetch all countries from the selected region and display them
   const fetchRegionCountries = async (e) => {
     const region = e.currentTarget.value;
-
-    const responsAllCountriesInTheRegion = await fetch(
-      `https://restcountries.com/v3.1/region/${region}`
-    );
-    const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
-    dispatch({
-      type: 'ALL_COUNTRIES_IN_THE_REGION',
-      payload: dataAllCountriesInTheRegion,
-    });
+    if (region !== 'Filter by Region') {
+      try {
+        const responsAllCountriesInTheRegion = await fetch(
+          `https://restcountries.com/v3.1/region/${region}`
+        );
+        const dataAllCountriesInTheRegion = await responsAllCountriesInTheRegion.json();
+        dispatch({
+          type: 'ALL_COUNTRIES_IN_THE_REGION',
+          payload: dataAllCountriesInTheRegion,
+        });
+      } catch (error) {
+        console.log(error);
+        // dispatch({ type: 'SET_ERROR_TRUE' });
+      }
+    }
   };
 
   // from HomePage or from Borders countries in the SingleCountryPage => onClick on single country => find currentCountry to load it on the single country page
@@ -151,6 +156,7 @@ const AppProvider = ({ children }) => {
         toggleTheme,
         setSearchTerm,
         fetchRegionCountries,
+        fetchUserLocation,
         handleCurrentCountry,
       }}
     >

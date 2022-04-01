@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
+// import Error from '../pages/Error';
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 import { BsArrowLeft } from 'react-icons/bs';
 import noImageAvailable from '../no-image-available.png';
 
-//format the population number 6927288 =>6,927,288
+//format the population number 6927288 => 6,927,288
 const formatInteger = (number) => {
   return new Intl.NumberFormat().format(number);
 };

@@ -30,7 +30,6 @@ const reducer = (state, action) => {
   if (action.type === 'ALL_COUNTRIES_IN_THE_REGION') {
     return {
       ...state,
-      all_countries_in_the_active_country_region: action.payload,
       loaded_countries: action.payload,
       error: false,
     };
@@ -44,8 +43,11 @@ const reducer = (state, action) => {
   if (action.type === 'SHOW_INPUT_COUNTRY') {
     return { ...state, loaded_countries: action.payload, error: false };
   }
-  if (action.type === 'SET_ERROR') {
+  if (action.type === 'SET_ERROR_TRUE') {
     return { ...state, error: true };
+  }
+  if (action.type === 'SET_ERROR_FALSE') {
+    return { ...state, error: false };
   }
   throw new Error(`no matching "${action.type}" action type`);
 };
